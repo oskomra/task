@@ -88,9 +88,7 @@ export default function AddInvoice({
       <DialogTrigger asChild>
         <Button variant="outline">Add invoice</Button>
       </DialogTrigger>
-      <DialogTitle className="text-2xl font-semibold text-center mt-4">
-        Add Invoice
-      </DialogTitle>
+      <DialogTitle className="text-2xl font-semibold text-center mt-4"></DialogTitle>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
