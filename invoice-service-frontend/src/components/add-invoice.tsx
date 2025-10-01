@@ -75,7 +75,7 @@ export default function AddInvoice({
           message: "Failed to create invoice",
         });
       }
-    } catch (error) {
+    } catch {
       setError("root.serverError", {
         type: "manual",
         message: "An unexpected error occurred",
@@ -93,7 +93,8 @@ export default function AddInvoice({
           <DialogHeader>
             <DialogTitle>Add Invoice</DialogTitle>
             <DialogDescription>
-              Add a new invoice to your account. Click save when you're done.
+              Add a new invoice to your account. Click save when you&apos;re
+              done.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
