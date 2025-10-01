@@ -17,18 +17,30 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Invoice } from "@/types/types";
 
-type FormData = z.infer<typeof schema>;
+type InvoiceFormData = z.infer<typeof schema>;
 
-const schema = z.object({
-  invoiceNumber: z.string().min(1).max(100),
-  issueDate: z.string().min(1).max(100),
-  dueDate: z.string().min(1).max(100),
-  buyerName: z.string().min(1).max(100),
-  buyerNIP: z.string().min(1).max(100),
-  itemDescription: z.string().min(1).max(100),
-  itemQuantity: z.number().min(1),
-  itemNetPrice: z.number().min(0),
-});
+const schema = z
+  .object({
+    invoiceNumber: z.string().min(1).max(100),
+    issueDate: z.string().min(1).max(100),
+    dueDate: z.string().min(1).max(100),
+    buyerName: z.string().min(1).max(100),
+    buyerNIP: z.string().min(1).max(100),
+    itemDescription: z.string().min(1).max(100),
+    itemQuantity: z.number().min(1, "Quantity must be at least 1"),
+    itemNetPrice: z.number().min(0, "Price cannot be negative"),
+  })
+  .refine(
+    (data) => {
+      const issueDate = new Date(data.issueDate);
+      const dueDate = new Date(data.dueDate);
+      return dueDate >= issueDate;
+    },
+    {
+      message: "Due date cannot be before issue date",
+      path: ["dueDate"],
+    }
+  );
 
 export default function AddInvoice({
   setCurrentInvoice,
@@ -43,11 +55,11 @@ export default function AddInvoice({
     setError,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+  } = useForm<InvoiceFormData>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: InvoiceFormData) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/invoices`,
@@ -69,10 +81,10 @@ export default function AddInvoice({
           '[data-dialog-close="true"]'
         ) as HTMLButtonElement;
         if (closeButton) closeButton.click();
-      } else {
+      } else if (response.status === 409) {
         setError("root.serverError", {
           type: "manual",
-          message: "Failed to create invoice",
+          message: "Invoice number already exists",
         });
       }
     } catch {
@@ -178,7 +190,6 @@ export default function AddInvoice({
                   <Input
                     id="itemQuantity"
                     type="number"
-                    min="1"
                     {...register("itemQuantity", { valueAsNumber: true })}
                     placeholder="1"
                   />
@@ -193,7 +204,6 @@ export default function AddInvoice({
                   <Input
                     id="itemNetPrice"
                     type="number"
-                    min="0"
                     step="0.01"
                     {...register("itemNetPrice", { valueAsNumber: true })}
                     placeholder="0.00"

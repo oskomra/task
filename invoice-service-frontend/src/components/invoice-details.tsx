@@ -1,10 +1,11 @@
 import type { Invoice } from "@/types/types";
+import { Spinner } from "./ui/shadcn-io/spinner";
 
 export default function Invoice({ invoice }: { invoice: Invoice | null }) {
   if (!invoice) {
     return (
-      <div className="flex flex-col gap-8 bg-neutral-900 md:w-3xl lg:w-4xl h-128 p-15 rounded-lg text-foreground">
-        <h1 className="flex justify-center item-center">No invoice selected</h1>
+      <div className="flex flex-col gap-8 bg-neutral-900 md:w-3xl lg:w-4xl h-128 p-15 rounded-lg text-foreground items-center justify-center">
+        <Spinner />
       </div>
     );
   }
