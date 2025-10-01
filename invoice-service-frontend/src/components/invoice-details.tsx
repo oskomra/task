@@ -18,6 +18,7 @@ export default function Invoice({ invoice }: { invoice: Invoice | null }) {
           <h1 className="text-xl font-semibold text-neutral-300">
             {invoice.invoiceNumber}
           </h1>
+          <span className="mt-2">Issue date: {invoice.issueDate}</span>
         </div>
       </div>
       <div className="flex flex-row justify-between">

@@ -88,69 +88,76 @@ export default function AddInvoice({
       <DialogTrigger asChild>
         <Button variant="outline">Add invoice</Button>
       </DialogTrigger>
+      <DialogTitle className="text-2xl font-semibold text-center mt-4">
+        Add Invoice
+      </DialogTitle>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Add Invoice</DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="mb-2 text-base">
               Add a new invoice to your account. Click save when you&apos;re
               done.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="invoiceNumber">Invoice Number</Label>
-              <Input id="invoiceNumber" {...register("invoiceNumber")} />
-              {errors.invoiceNumber && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.invoiceNumber.message}
-                </p>
-              )}
+          <div className="grid gap-4 mb-4 ">
+            <div className="grid gap-3 bg-neutral-900 p-4 rounded-lg">
+              <span className="text-center">Invoice Details</span>
+              <div className="grid gap-3">
+                <Label htmlFor="invoiceNumber">Invoice Number</Label>
+                <Input id="invoiceNumber" {...register("invoiceNumber")} />
+                {errors.invoiceNumber && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.invoiceNumber.message}
+                  </p>
+                )}
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="issueDate">Issue Date</Label>
+                <Input id="issueDate" type="date" {...register("issueDate")} />
+                {errors.issueDate && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.issueDate.message}
+                  </p>
+                )}
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="dueDate">Due Date</Label>
+                <Input id="dueDate" type="date" {...register("dueDate")} />
+                {errors.dueDate && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.dueDate.message}
+                  </p>
+                )}
+              </div>
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="issueDate">Issue Date</Label>
-              <Input id="issueDate" type="date" {...register("issueDate")} />
-              {errors.issueDate && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.issueDate.message}
-                </p>
-              )}
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="dueDate">Due Date</Label>
-              <Input id="dueDate" type="date" {...register("dueDate")} />
-              {errors.dueDate && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.dueDate.message}
-                </p>
-              )}
-            </div>
-            <span className="text-center">Buyer Details</span>
-            <div className="grid gap-3">
-              <Label htmlFor="buyerName">Name</Label>
-              <Input
-                id="buyerName"
-                placeholder="John Doe"
-                {...register("buyerName")}
-              />
-              {errors.buyerName && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.buyerName.message}
-                </p>
-              )}
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="buyerNIP">NIP</Label>
-              <Input
-                id="buyerNIP"
-                placeholder="123-45-67-890"
-                {...register("buyerNIP")}
-              />
-              {errors.buyerNIP && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.buyerNIP.message}
-                </p>
-              )}
+            <div className="grid gap-3 bg-neutral-900 p-4 rounded-lg">
+              <span className="text-center">Buyer Details</span>
+              <div className="grid gap-3">
+                <Label htmlFor="buyerName">Name</Label>
+                <Input
+                  id="buyerName"
+                  placeholder="John Doe"
+                  {...register("buyerName")}
+                />
+                {errors.buyerName && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.buyerName.message}
+                  </p>
+                )}
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="buyerNIP">NIP</Label>
+                <Input
+                  id="buyerNIP"
+                  placeholder="123-45-67-890"
+                  {...register("buyerNIP")}
+                />
+                {errors.buyerNIP && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.buyerNIP.message}
+                  </p>
+                )}
+              </div>
             </div>
             <div className="grid gap-3 bg-neutral-900 p-4 rounded-lg">
               <span className="text-center">Item Details</span>
@@ -209,7 +216,7 @@ export default function AddInvoice({
               </Button>
             </DialogClose>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save changes"}
+              {isSubmitting ? "Adding..." : "Add Invoice"}
             </Button>
           </DialogFooter>
           {errors.root?.serverError && (
