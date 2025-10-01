@@ -22,4 +22,9 @@ public class InvoiceAdvice {
         );
         return new ResponseEntity<>(new CustomErrorMessage(errorMessage.toString()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(InvoiceNumberAlreadyExists.class)
+    public ResponseEntity<CustomErrorMessage> handleInvoiceNumberAlreadyExists(InvoiceNumberAlreadyExists e) {
+        return new ResponseEntity<>(new CustomErrorMessage(e.getMessage()), HttpStatus.CONFLICT);
+    }
 }

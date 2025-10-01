@@ -3,6 +3,7 @@ package osk.sko.InvoiceServiceBackend.service;
 import lombok.Getter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
+import osk.sko.InvoiceServiceBackend.advice.InvoiceNumberAlreadyExists;
 import osk.sko.InvoiceServiceBackend.dto.InvoiceDTO;
 import osk.sko.InvoiceServiceBackend.model.Buyer;
 import osk.sko.InvoiceServiceBackend.model.Invoice;
@@ -46,6 +47,13 @@ public class InvoiceService implements CommandLineRunner {
     }
 
     public Invoice addInvoice(InvoiceDTO invoiceDTO) {
+
+        for (Invoice invoice : invoices) {
+            if (invoice.getInvoiceNumber().equals(invoiceDTO.getInvoiceNumber())) {
+                throw new InvoiceNumberAlreadyExists("Invoice number already exists");
+            }
+        }
+
         List<Item> items = new ArrayList<>();
         items.add(new Item(invoiceDTO.getItemDescription(), invoiceDTO.getItemQuantity(), invoiceDTO.getItemNetPrice()));
 
